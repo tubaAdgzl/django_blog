@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title%}Ana Sayfa{% endblock %}
+
+{% block body %}
+<div class="jumbotron bg-light text-primary">
+  <div class="container">
+      <div class="col-md-6 px-0">
+          <h1 class="display-4 font-italic">
+              Lorem ipsum dolor sit amet.
+          </h1>
+          <p class="lead my-3 text-primary"> 
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo magni ipsa quaerat accusantium quod labore.
+          </p>
+      </div>
+  </div>
+</div>
+<!-- card -->
+<div class="container mt-3">
+    {% for post in posts %}
+    <div class="row">
+          <div class="col-md-8 col-lg-7 offset-lg-2 offset-md-2">
+              <div class="card">
+                {% if post.image %}
+                  <img src="{{ post.image.url }}" class="card-img-top img-thumbnail"alt="">
+                {% endif %}
+                  <div class="card-body">
+                      <h4 class="card-title">
+                        <a href="{{post.get_absolute_url}}">{{ post.title }}</a><br><small class="text-muted">Yazar:{{ post.user.get_full_name|default:post.user.username }}</small>
+                      </h4>
+                      <p class="card-text">
+                        {{ post.content|safe|linebreaks|truncatechars:140}}
+                      </p><br>
+                      <a href="{{post.get_absolute_url}}" class="btn btn-outline-info">Devamı...</a>
+                      {% if request.user.is_superuser %}
+                        <a href="{{post.get_update_url}}" class="btn btn-outline-warning">Güncelle</a>
+                        <a href="{{post.get_delete_url}}" class="btn btn-outline-danger" onclick="return window.confirm('Silmek istediğinize emin misiniz?');">Sil</a>
+                     {% endif %}
+                      </div>
+              </div>
+              <div class="card-footer mb-3 text-muted">
+                <small class="text-muted">{{ post.publishing_date|timesince}} önce</small>
+              </div>
+            </div>
+            </div>
+        {% endfor%}
+
+        <!-- pagination -->
+        <div class="offset-md-5">
+          <div class="pagination">
+            <span class="step-links">
+                {% if posts.has_previous %}
+                    <a href="?sayfa={{ posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Önceki</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                </span>
+        
+                {% if posts.has_next %}
+                    <a href="?sayfa={{ posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Sonraki</a>
+                {% endif %}
+            </span>
+        </div>
+      </div>
+    </div>
+    <!-- footer -->
+    <footer class="py-5 bg-light mt-3 text-primary text-center">
+      &copy;2020
+      </footer>
+{% endblock %}

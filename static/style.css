@@ -1,0 +1,20 @@
+blockquote{
+    margin-left: 40px;
+    border-left:8px solid rgb(211, 208, 208);
+    padding: 2px;
+}
+input#search {
+    padding: 8px 8px 10px;
+    border: 0;
+    background: transparent;
+    border-bottom: 1px solid #a9a9a9;
+    color: #1c03b5;
+    width:300px;
+    outline: 0;
+    font-size: 13px;
+    transition-duration: 0.5s;
+    transition-property: width,color;
+}
+input#search:focus{
+    border-bottom: 1px solid #1c03b5;
+}

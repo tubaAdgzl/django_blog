@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title%}Açıklama{% endblock %}
+
+{% block body %}
+<!-- card -->
+<div class="container">
+        <div class="card">
+            {% if post.image %}
+                <img src="{{ post.image.url }}" class="card-img-top rounded-w">
+            {% endif %}
+        <div class="card-body">
+            <h5 class="card-title offset-md-5">{{ post.title }}<br> </h5>
+            <small class="text-muted">Yazar:{{ post.user.get_full_name|default:post.user.username }}</small>
+            <p class="card-text mb-3">{{ post.content|safe|linebreaks}}</p>
+            {% if request.user.is_superuser %}
+              <a href="{{post.get_update_url}}" class="btn btn-outline-warning">Güncelle</a>
+              <a href="{{post.get_delete_url}}" class="btn btn-outline-danger" onclick="return window.confirm('Silmek istediğinize emin misiniz?');">Sil</a>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">{{ post.publishing_date }}</small>
+        </div>
+        </div>
+        <br><br><br><hr>
+        <!-- comments -->
+        <h3>Yorumlar({{post.comments.all|length}})</h3><br>
+        {% for comment in post.comments.all %}
+            <h4>{{ comment.name }}&nbsp;<small>{{ comment.created_date|timesince}} önce</small></h4>
+            <p>{{ comment.content|linebreaks}}</p>&horbar;
+        {% endfor %}
+        <h3>Yorum Ekle : </h3>
+        {% include "post/comment.html" %}
+    </div>
+{% endblock %}

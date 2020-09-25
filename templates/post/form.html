@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title%}Post Oluştur{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 mt-3">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h3>Yazı Oluştur</h3>
+                    {{ form|crispy}}
+                    {{form.media}}
+                    <input class="btn btn-success" type="submit" value="Oluştur">
+                </form>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
